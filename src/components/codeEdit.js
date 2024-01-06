@@ -14,13 +14,13 @@ const CodeEdit = () => {
   useEffect(() => {
     // Create a new WebSocket connection when the component mounts
     console.log(title);
-    socket.current = io('online-coding-server', {
+    socket.current = io('localhost:4000', {
         query:  {title} ,
     });
     console.log("WebSocket created for user");
 
     // Fetch initial code from the server and set it in the 'code' state
-    fetch(`online-coding-server/record/${title}`)
+    fetch(`localhost:4000/record/${title}`)
       .then(response => response.json())
       .then(data => setCode(data.code))
       .catch(error => console.error('Error fetching code:', error));
