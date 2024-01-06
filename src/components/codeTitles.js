@@ -5,7 +5,7 @@ const CodeTitles = () => {
   const [records, setRecords] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:4000/records')
+    fetch('online-coding-server/records')
       .then(response => response.json())
       .then(data => setRecords(data))
       .catch(error => console.error('Error fetching data:', error));
