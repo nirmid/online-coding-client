@@ -39,9 +39,10 @@ const CodeEdit = () => {
 
     return () => {
       // Clean up the WebSocket connection when the component unmounts
-      socket.current.close();
+      console.log("scoket disconnected");
+      socket.current.disconnect(true);
     };
-  }, []);
+  }, [title]);
 
   const handleCodeChange = updatedCode => {
     // Send code updates to the server via WebSocket
