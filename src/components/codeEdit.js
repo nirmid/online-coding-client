@@ -45,6 +45,7 @@ const CodeEdit = () => {
   const handleCodeChange = updatedCode => {
     // Send code updates to the server via WebSocket
     socket.current.emit('updateCode', { title, updatedCode });
+    console.log("Sent updated code to server!");
     // Update the local state immediately
     setCode(updatedCode);
   };
@@ -58,7 +59,6 @@ const CodeEdit = () => {
         height="300px"
         width="800px"
         value={code}
-        onChange={(newValue) => handleCodeChange(newValue/*e.target.value*/)}
       />
   </div>) : 
   (<div>
