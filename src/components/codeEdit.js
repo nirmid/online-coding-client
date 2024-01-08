@@ -33,6 +33,7 @@ const CodeEdit = () => {
     }); 
     });
     socket.current.on('readOnlyStatus', ({ readOnly: readOnlyStatus }) => {
+        console.log("Not the first!");
         setReadOnly(readOnlyStatus);
     });
 
