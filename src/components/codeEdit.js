@@ -13,11 +13,9 @@ const CodeEdit = () => {
 
   useEffect(() => {
     // Create a new WebSocket connection when the component mounts
-    console.log(title);
     socket.current = io('https://online-coding-server-production-8bf8.up.railway.app', {
         query:  {title} ,
     });
-    console.log("WebSocket created for user");
 
     // Fetch initial code from the server and set it in the 'code' state
     fetch(`https://online-coding-server-production-8bf8.up.railway.app/record/${title}`)
@@ -27,11 +25,9 @@ const CodeEdit = () => {
 
     // Handle WebSocket updates
     socket.current.on('codeUpdated', ({ updatedTitle, updatedCode }) => {
-      console.log('Received codeUpdated event:', { updatedTitle, updatedCode });
       setCode(updatedCode); 
     });
     socket.current.on('readOnlyStatus', ({ readOnly: readOnlyStatus }) => {
-        console.log("Not the first!");
         setReadOnly(readOnlyStatus);
     });
 
@@ -45,8 +41,7 @@ const CodeEdit = () => {
   const handleCodeChange = updatedCode => {
     // Send code updates to the server via WebSocket
     socket.current.emit('updateCode', { title, updatedCode });
-    console.log("Sent updated code to server!");
-    // Update the local state immediately
+    // Update the local state
     setCode(updatedCode);
   };
 
