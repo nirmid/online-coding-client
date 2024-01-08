@@ -66,6 +66,7 @@ const CodeEdit = () => {
       <h2>Edit Code for: {title}</h2>
       <Editor
         language="javascript"
+        options={{readOnly: false}}
         height="300px"
         width="800px"
         value={code}
