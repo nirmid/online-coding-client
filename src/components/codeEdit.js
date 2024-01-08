@@ -9,12 +9,12 @@ const CodeEdit = () => {
   const { title } = useParams();
   const [code, setCode] = useState('');
   const [readOnly, setReadOnly] = useState(true);
-  //const socket = useRef(null);
+  const socket = useRef(null);
 
   useEffect(() => {
     // Create a new WebSocket connection when the component mounts
     console.log(title);
-    const socket = io('https://online-coding-server-production-8bf8.up.railway.app', {
+    socket.current = io('https://online-coding-server-production-8bf8.up.railway.app', {
         query:  {title} ,
     });
     console.log("WebSocket created for user");
@@ -26,27 +26,25 @@ const CodeEdit = () => {
       .catch(error => console.error('Error fetching code:', error));
 
     // Handle WebSocket updates
-    socket.on('codeUpdated', ({ updatedTitle, updatedCode }) => {
-    console.log('Received codeUpdated event:', { updatedTitle, updatedCode });
-        setCode(prevCode => {
-      return updatedCode;
-    }); 
+    socket.current.on('codeUpdated', ({ updatedTitle, updatedCode }) => {
+      console.log('Received codeUpdated event:', { updatedTitle, updatedCode });
+      setCode(updatedCode); 
     });
-    socket.on('readOnlyStatus', ({ readOnly: readOnlyStatus }) => {
+    socket.current.on('readOnlyStatus', ({ readOnly: readOnlyStatus }) => {
         console.log("Not the first!");
         setReadOnly(readOnlyStatus);
     });
 
     return () => {
       // Clean up the WebSocket connection when the component unmounts
-      console.log("scoket disconnected");
-      socket.disconnect(true);
+      console.log("socket disconnected");
+      socket.current.disconnect(true);
     };
   }, [title]);
 
   const handleCodeChange = updatedCode => {
     // Send code updates to the server via WebSocket
-    socket.emit('updateCode', { title, updatedCode });
+    socket.current.emit('updateCode', { title, updatedCode });
     // Update the local state immediately
     setCode(updatedCode);
   };
