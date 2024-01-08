@@ -41,7 +41,7 @@ const CodeEdit = () => {
       // Clean up the WebSocket connection when the component unmounts
       socket.current.close();
     };
-  }, [title]);
+  }, []);
 
   const handleCodeChange = updatedCode => {
     // Send code updates to the server via WebSocket
